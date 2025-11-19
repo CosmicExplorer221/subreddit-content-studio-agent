@@ -1,0 +1,400 @@
+{
+  "posts": [
+    {
+      "id": "rail_001",
+      "title": "New Siemens Velaro Novo breaks speed record in Germany",
+      "content": "The new Siemens Velaro Novo high-speed train has achieved a new speed record of 368 km/h (229 mph) during testing on the Nuremberg-Munich line. This modular train platform promises better energy efficiency and reduced maintenance costs.",
+      "category": "railway",
+      "score": 4523,
+      "num_comments": 187,
+      "author": "railtech_news",
+      "created_utc": 1699920000,
+      "has_media": true,
+      "media_type": "image",
+      "media_url": "railway/velaro_novo.jpg",
+      "top_comments": [
+        {"author": "trainenthusiast", "body": "The modular design is brilliant. This is the future of high-speed rail.", "score": 234},
+        {"author": "transit_engineer", "body": "15% better energy efficiency compared to previous gen. Amazing engineering.", "score": 189},
+        {"author": "europeantransit", "body": "Can't wait to see these operating in regular service. Game changer for European rail.", "score": 156}
+      ]
+    },
+    {
+      "id": "rail_002",
+      "title": "Japan's SC Maglev reaches 603 km/h in latest test",
+      "content": "The superconducting maglev (SC Maglev) train broke its own world record, reaching 603 km/h (375 mph) on the Yamanashi Maglev Test Line. Commercial service on the Chuo Shinkansen expected to begin in 2027.",
+      "category": "railway",
+      "score": 5234,
+      "num_comments": 312,
+      "author": "japanese_rail",
+      "created_utc": 1699833600,
+      "has_media": true,
+      "media_type": "video",
+      "media_url": "railway/maglev_test.mp4",
+      "top_comments": [
+        {"author": "maglevfan", "body": "The future is here! Can't believe this is real.", "score": 412},
+        {"author": "engineering_today", "body": "Superconducting magnets are incredible. Zero friction, pure speed.", "score": 298},
+        {"author": "tokyo_commuter", "body": "Tokyo to Osaka in 67 minutes. This will change everything.", "score": 245}
+      ]
+    },
+    {
+      "id": "rail_003",
+      "title": "NYC Subway unveils new R211 trains with open gangway design",
+      "content": "MTA introduces the first open gangway subway cars in NYC, allowing passengers to move freely between cars. Features include wider doors, security cameras, and USB charging ports.",
+      "category": "railway",
+      "score": 3421,
+      "num_comments": 234,
+      "author": "nyc_transit",
+      "created_utc": 1699747200,
+      "has_media": true,
+      "media_type": "image",
+      "media_url": "railway/r211_interior.jpg",
+      "top_comments": [
+        {"author": "manhattan_rider", "body": "Finally! Open gangways mean more capacity during rush hour.", "score": 187},
+        {"author": "subway_historian", "body": "First major design change in decades. Welcome to the 21st century, MTA.", "score": 156},
+        {"author": "transit_planner", "body": "USB ports and better AC. Small things that make a big difference.", "score": 134}
+      ]
+    },
+    {
+      "id": "rail_004",
+      "title": "Switzerland opens world's longest railway tunnel through the Alps",
+      "content": "The 57.1 km Gotthard Base Tunnel is now fully operational, reducing travel time between Zurich and Milan by an hour. An engineering marvel 17 years in the making.",
+      "category": "railway",
+      "score": 4892,
+      "num_comments": 276,
+      "author": "alpine_engineering",
+      "created_utc": 1699660800,
+      "has_media": true,
+      "media_type": "image",
+      "media_url": "railway/gotthard_tunnel.jpg",
+      "top_comments": [
+        {"author": "swiss_precision", "body": "17 years, zero delays, zero accidents. That's Swiss engineering.", "score": 312},
+        {"author": "geology_fan", "body": "Drilling through 2000m of rock. The geology challenges were insane.", "score": 234},
+        {"author": "euro_traveler", "body": "This tunnel makes European rail travel so much better.", "score": 198}
+      ]
+    },
+    {
+      "id": "rail_005",
+      "title": "India launches Vande Bharat Express 2.0 with improved features",
+      "content": "Indian Railways introduces upgraded Vande Bharat Express trains with better acceleration, WiFi, and passenger amenities. Operating speed increased to 180 km/h with plans for 200 km/h.",
+      "category": "railway",
+      "score": 2876,
+      "num_comments": 145,
+      "author": "indian_railways",
+      "created_utc": 1699574400,
+      "has_media": true,
+      "media_type": "image",
+      "media_url": "railway/vande_bharat.jpg",
+      "top_comments": [
+        {"author": "delhi_commuter", "body": "Finally, world-class trains in India. The progress is incredible.", "score": 156},
+        {"author": "rail_progress", "body": "From 160 to 180 km/h is significant. Keep improving!", "score": 124},
+        {"author": "mumbai_local", "body": "Need these on all major routes. Game changer for Indian rail.", "score": 98}
+      ]
+    },
+    {
+      "id": "rail_006",
+      "title": "London's Elizabeth Line completes full opening",
+      "content": "The £19 billion Elizabeth Line (Crossrail) is now fully operational, connecting Reading and Heathrow in the west to Shenfield and Abbey Wood in the east through new tunnels under central London.",
+      "category": "railway",
+      "score": 3654,
+      "num_comments": 198,
+      "author": "london_underground",
+      "created_utc": 1699488000,
+      "has_media": true,
+      "media_type": "image",
+      "media_url": "railway/elizabeth_line.jpg",
+      "top_comments": [
+        {"author": "london_commuter", "body": "13 years late but absolutely worth it. Best transport investment in decades.", "score": 223},
+        {"author": "uk_infrastructure", "body": "200m passenger journeys expected in first year. Massive success.", "score": 178},
+        {"author": "tube_mapper", "body": "The stations are beautiful. Finally, modern rail infrastructure in London.", "score": 145}
+      ]
+    },
+    {
+      "id": "rail_007",
+      "title": "California High-Speed Rail completes first test track section",
+      "content": "The long-awaited California High-Speed Rail project completes its first operational test section in Central Valley. Testing begins for 220 mph operation.",
+      "category": "railway",
+      "score": 2934,
+      "num_comments": 423,
+      "author": "ca_hsr_project",
+      "created_utc": 1699401600,
+      "has_media": true,
+      "media_type": "image",
+      "media_url": "railway/ca_hsr_track.jpg",
+      "top_comments": [
+        {"author": "sf_tech_worker", "body": "Finally seeing progress! SF to LA in 2.5 hours will be amazing.", "score": 267},
+        {"author": "transit_skeptic", "body": "Over budget and behind schedule, but at least something is being built.", "score": 198},
+        {"author": "sustainability_fan", "body": "This will eliminate so many short-haul flights. Great for the environment.", "score": 156}
+      ]
+    },
+    {
+      "id": "rail_008",
+      "title": "Germany tests hydrogen-powered passenger trains",
+      "content": "Alstom's Coradia iLint hydrogen trains begin passenger service in Lower Saxony, Germany. Zero emissions with 1000 km range on a single tank.",
+      "category": "railway",
+      "score": 3821,
+      "num_comments": 234,
+      "author": "green_transit",
+      "created_utc": 1699315200,
+      "has_media": true,
+      "media_type": "image",
+      "media_url": "railway/hydrogen_train.jpg",
+      "top_comments": [
+        {"author": "clean_energy", "body": "The only emission is water vapor. Perfect for non-electrified lines.", "score": 289},
+        {"author": "german_engineering", "body": "1000 km range is impressive. Better than battery electric for long routes.", "score": 234},
+        {"author": "future_rail", "body": "This is how we decarbonize rail on lines where catenary is impractical.", "score": 187}
+      ]
+    },
+    {
+      "id": "rail_009",
+      "title": "Paris Metro introduces fully automated Line 14 extension",
+      "content": "Paris extends its flagship automated metro Line 14 north and south, with 100% driverless operation and platform screen doors at all stations.",
+      "category": "railway",
+      "score": 2456,
+      "num_comments": 134,
+      "author": "paris_metro",
+      "created_utc": 1699228800,
+      "has_media": true,
+      "media_type": "image",
+      "media_url": "railway/paris_line14.jpg",
+      "top_comments": [
+        {"author": "automation_fan", "body": "Fully automated metros are the future. More frequency, lower costs.", "score": 167},
+        {"author": "paris_resident", "body": "Platform screen doors make such a difference for safety and AC.", "score": 134},
+        {"author": "metro_enthusiast", "body": "Line 14 is a model for all future metro lines. Brilliant design.", "score": 112}
+      ]
+    },
+    {
+      "id": "rail_010",
+      "title": "China's Fuxing bullet train network reaches 40,000 km",
+      "content": "China's high-speed rail network, centered around the Fuxing (Rejuvenation) bullet trains, now spans over 40,000 km, more than the rest of the world combined.",
+      "category": "railway",
+      "score": 4123,
+      "num_comments": 298,
+      "author": "china_railways",
+      "created_utc": 1699142400,
+      "has_media": true,
+      "media_type": "image",
+      "media_url": "railway/fuxing_train.jpg",
+      "top_comments": [
+        {"author": "infrastructure_watch", "body": "Built in just 15 years. The speed of construction is mind-blowing.", "score": 312},
+        {"author": "global_rail", "body": "350 km/h in regular service on multiple routes. Incredible achievement.", "score": 245},
+        {"author": "urban_planner", "body": "This has transformed domestic travel in China. Flying is often slower now.", "score": 189}
+      ]
+    },
+    {
+      "id": "rail_011",
+      "title": "Toronto's Ontario Line receives final approval",
+      "content": "Toronto's Ontario Line, a 15.6 km subway line through downtown, gets environmental approval. Expected to serve 388,000 daily riders when complete in 2030.",
+      "category": "railway",
+      "score": 1834,
+      "num_comments": 156,
+      "author": "toronto_transit",
+      "created_utc": 1699056000,
+      "has_media": false,
+      "media_type": null,
+      "media_url": null,
+      "top_comments": [
+        {"author": "toronto_commuter", "body": "Finally expanding the subway! Should have been done decades ago.", "score": 134},
+        {"author": "urban_toronto", "body": "388k riders per day will transform downtown transit.", "score": 98},
+        {"author": "ttc_rider", "body": "Hope they don't mess this up. Toronto desperately needs this.", "score": 87}
+      ]
+    },
+    {
+      "id": "rail_012",
+      "title": "Spain's Talgo April high-speed train enters service",
+      "content": "Talgo's next-generation April train begins operations in Spain. Features include 40% weight reduction, modular design, and top speed of 330 km/h.",
+      "category": "railway",
+      "score": 2987,
+      "num_comments": 167,
+      "author": "spanish_railways",
+      "created_utc": 1698969600,
+      "has_media": true,
+      "media_type": "image",
+      "media_url": "railway/talgo_april.jpg",
+      "top_comments": [
+        {"author": "light_rail", "body": "40% weight reduction = massive energy savings. Engineering excellence.", "score": 178},
+        {"author": "renfe_fan", "body": "Spain has some of the best high-speed trains in Europe. This continues that tradition.", "score": 145},
+        {"author": "train_tech", "body": "Modular design means easier maintenance and upgrades. Smart approach.", "score": 123}
+      ]
+    },
+    {
+      "id": "rail_013",
+      "title": "Singapore's Thomson-East Coast Line Phase 3 opens",
+      "content": "Singapore completes Phase 3 of TEL, connecting more neighborhoods to the MRT network. Fully automated with platform screen doors and advanced air filtration.",
+      "category": "railway",
+      "score": 2234,
+      "num_comments": 98,
+      "author": "singapore_mrt",
+      "created_utc": 1698883200,
+      "has_media": true,
+      "media_type": "image",
+      "media_url": "railway/singapore_tel.jpg",
+      "top_comments": [
+        {"author": "sg_resident", "body": "Singapore MRT is world-class. Always expanding, always improving.", "score": 134},
+        {"author": "transit_quality", "body": "Air filtration in every station. The attention to detail is incredible.", "score": 112},
+        {"author": "automation_sg", "body": "Fully automated from day one. This is how modern metros should be built.", "score": 89}
+      ]
+    },
+    {
+      "id": "rail_014",
+      "title": "Netherlands tests longest autonomous freight train",
+      "content": "ProRail and DB Cargo successfully test a 750-meter autonomous freight train between Rotterdam and Germany. AI handles acceleration, braking, and route optimization.",
+      "category": "railway",
+      "score": 3456,
+      "num_comments": 187,
+      "author": "euro_freight",
+      "created_utc": 1698796800,
+      "has_media": true,
+      "media_type": "video",
+      "media_url": "railway/autonomous_freight.mp4",
+      "top_comments": [
+        {"author": "logistics_pro", "body": "Autonomous freight will revolutionize cargo rail. More efficient, safer, cheaper.", "score": 234},
+        {"author": "ai_trains", "body": "The AI can optimize energy use in real-time. Saves 10-15% on electricity.", "score": 189},
+        {"author": "dutch_rail", "body": "Rotterdam-Germany is one of Europe's busiest freight corridors. Perfect test route.", "score": 156}
+      ]
+    },
+    {
+      "id": "rail_015",
+      "title": "South Korea unveils SRT-X prototype for 400 km/h operation",
+      "content": "Korea Railroad Research Institute reveals SRT-X experimental train designed to reach 400 km/h. Features active suspension and aerodynamic nose design.",
+      "category": "railway",
+      "score": 3723,
+      "num_comments": 212,
+      "author": "korean_rail_tech",
+      "created_utc": 1698710400,
+      "has_media": true,
+      "media_type": "image",
+      "media_url": "railway/srt_x_prototype.jpg",
+      "top_comments": [
+        {"author": "korea_tech", "body": "400 km/h would make Seoul-Busan in under 90 minutes. Incredible.", "score": 267},
+        {"author": "aero_engineer", "body": "That nose design is beautiful. Wind tunnel optimized for minimal drag.", "score": 198},
+        {"author": "suspension_expert", "body": "Active suspension at 400 km/h is seriously advanced tech.", "score": 167}
+      ]
+    },
+    {
+      "id": "rail_016",
+      "title": "UK trials battery-electric trains on diesel lines",
+      "content": "Hitachi Rail tests battery-electric trains on UK routes currently using diesel. Can operate 90 km on battery power alone, enabling zero-emission operation in city centers.",
+      "category": "railway",
+      "score": 2876,
+      "num_comments": 145,
+      "author": "uk_rail_innovation",
+      "created_utc": 1698624000,
+      "has_media": true,
+      "media_type": "image",
+      "media_url": "railway/battery_train_uk.jpg",
+      "top_comments": [
+        {"author": "green_transport", "body": "Perfect for routes where full electrification is too expensive.", "score": 178},
+        {"author": "british_rail", "body": "90 km battery range covers most diesel branch lines. This could eliminate diesel trains.", "score": 156},
+        {"author": "battery_tech", "body": "Charge at stations, run emission-free through cities. Best of both worlds.", "score": 134}
+      ]
+    },
+    {
+      "id": "rail_017",
+      "title": "Melbourne Metro Tunnel project reaches completion",
+      "content": "Melbourne's $11 billion Metro Tunnel opens, adding new underground stations and creating a cross-city rail loop. Expected to transform public transport in Victoria.",
+      "category": "railway",
+      "score": 2456,
+      "num_comments": 167,
+      "author": "melbourne_metro",
+      "created_utc": 1698537600,
+      "has_media": true,
+      "media_type": "image",
+      "media_url": "railway/melbourne_metro.jpg",
+      "top_comments": [
+        {"author": "melbourne_commuter", "body": "The new stations are gorgeous. Worth the wait and the cost.", "score": 189},
+        {"author": "public_transport_vic", "body": "This solves the City Loop capacity crunch. Melbourne really needed this.", "score": 145},
+        {"author": "infrastructure_aus", "body": "Mega project delivered. Shows what Australia can achieve with rail.", "score": 123}
+      ]
+    },
+    {
+      "id": "rail_018",
+      "title": "Italy's Frecciarossa 1000 sets new service reliability record",
+      "content": "Trenitalia's Frecciarossa 1000 high-speed trains achieve 99.8% on-time performance over the past year, with an average speed of 280 km/h on the Milan-Rome route.",
+      "category": "railway",
+      "score": 2134,
+      "num_comments": 123,
+      "author": "italian_railways",
+      "created_utc": 1698451200,
+      "has_media": true,
+      "media_type": "image",
+      "media_url": "railway/frecciarossa_1000.jpg",
+      "top_comments": [
+        {"author": "reliability_matters", "body": "99.8% on-time is incredible. Japanese level of punctuality.", "score": 167},
+        {"author": "italian_traveler", "body": "Milan to Rome in 2h55m. Faster than flying when you include airport time.", "score": 134},
+        {"author": "euro_hsr", "body": "Frecciarossa shows that Italian engineering is world-class.", "score": 112}
+      ]
+    },
+    {
+      "id": "rail_019",
+      "title": "Norway extends Bybanen light rail with new coastal line",
+      "content": "Bergen extends its Bybanen light rail system along the coast. Features include bidirectional charging stations and scenic waterfront alignment.",
+      "category": "railway",
+      "score": 1876,
+      "num_comments": 98,
+      "author": "norwegian_transit",
+      "created_utc": 1698364800,
+      "has_media": true,
+      "media_type": "image",
+      "media_url": "railway/bergen_bybanen.jpg",
+      "top_comments": [
+        {"author": "bergen_local", "body": "The coastal route is beautiful. Transit infrastructure that enhances the city.", "score": 134},
+        {"author": "scandinavian_rail", "body": "Bidirectional charging is smart. Regen braking feeds power back to the grid.", "score": 98},
+        {"author": "light_rail_fan", "body": "Norway does transit right. Always thinking long-term.", "score": 87}
+      ]
+    },
+    {
+      "id": "rail_020",
+      "title": "Dubai unveils Route 2020 Metro extension for Expo",
+      "content": "Dubai Metro extends Red Line to Expo 2020 site with 7 new stations. Fully driverless operation with gold-class luxury coaches.",
+      "category": "railway",
+      "score": 2654,
+      "num_comments": 156,
+      "author": "dubai_rta",
+      "created_utc": 1698278400,
+      "has_media": true,
+      "media_type": "image",
+      "media_url": "railway/dubai_metro_2020.jpg",
+      "top_comments": [
+        {"author": "dubai_resident", "body": "Gold class on a metro is peak Dubai. But the system works incredibly well.", "score": 178},
+        {"author": "driverless_metro", "body": "100% automated metro. No drivers, all computer controlled. Very impressive.", "score": 145},
+        {"author": "middle_east_transit", "body": "Dubai Metro is proof that good public transport works even in car-centric cities.", "score": 123}
+      ]
+    },
+    {
+      "id": "rail_021",
+      "title": "Taiwan High Speed Rail celebrates 15 years of service",
+      "content": "Taiwan HSR marks 15 years connecting Taipei to Kaohsiung in 90 minutes. Over 700 million passengers carried with 99.7% on-time performance.",
+      "category": "railway",
+      "score": 3234,
+      "num_comments": 189,
+      "author": "taiwan_hsr",
+      "created_utc": 1698192000,
+      "has_media": true,
+      "media_type": "image",
+      "media_url": "railway/taiwan_hsr.jpg",
+      "top_comments": [
+        {"author": "taiwan_commuter", "body": "Changed Taiwan forever. Used to be a 5-hour drive, now 90 minutes.", "score": 234},
+        {"author": "punctuality_king", "body": "99.7% on-time over 15 years. That's Japanese Shinkansen-level reliability.", "score": 198},
+        {"author": "asia_transit", "body": "700 million passengers is mind-blowing. Essential infrastructure for Taiwan.", "score": 167}
+      ]
+    },
+    {
+      "id": "rail_022",
+      "title": "Montreal's REM automated metro opens first phase",
+      "content": "Réseau express métropolitain (REM), Montreal's new automated light metro, begins service with 5 stations. Will eventually connect airport to downtown in 20 minutes.",
+      "category": "railway",
+      "score": 2987,
+      "num_comments": 167,
+      "author": "montreal_rem",
+      "created_utc": 1698105600,
+      "has_media": true,
+      "media_type": "image",
+      "media_url": "railway/montreal_rem.jpg",
+      "top_comments": [
+        {"author": "mtl_commuter", "body": "Finally! Montreal needed this for decades. Game changer for the West Island.", "score": 189},
+        {"author": "automated_transit", "body": "Fully automated, high frequency. This is modern transit done right.", "score": 156},
+        {"author": "airport_link", "body": "20 minutes to the airport will be huge for tourism and business.", "score": 134}
+      ]
+    }
+  ]
+}
