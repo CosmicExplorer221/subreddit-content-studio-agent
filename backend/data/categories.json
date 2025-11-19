@@ -1,0 +1,12 @@
+{
+  "categories": [
+    {
+      "id": "railway",
+      "name": "Railway & Transit",
+      "description": "Railway technology, infrastructure, and public transit innovations",
+      "default_template": "railway_professional",
+      "hashtags": ["#Railway", "#PublicTransit", "#RailwayInnovation", "#Transit", "#UrbanMobility"],
+      "color": "#1E40AF"
+    }
+  ]
+}

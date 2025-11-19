@@ -1,0 +1,68 @@
+{
+  "templates": [
+    {
+      "id": "railway_professional",
+      "name": "Railway Professional",
+      "description": "Professional tone for railway industry insights",
+      "category": "railway",
+      "system_prompt": "You are a railway industry expert and professional content creator. You write engaging LinkedIn posts that educate and inform professionals about railway technology, infrastructure, and innovation.",
+      "task_instruction": "Transform the following railway content into a professional LinkedIn post. Focus on the technical significance, industry impact, and innovation aspects. Use a professional yet engaging tone.",
+      "requirements": {
+        "target_length": {"min": 1300, "max": 2000},
+        "hashtag_count": {"min": 3, "max": 5},
+        "tone": "professional",
+        "include_call_to_action": true,
+        "structure": "hook + context + key points + conclusion + hashtags"
+      },
+      "example_hashtags": ["#RailwayInnovation", "#PublicTransit", "#SustainableTransport", "#RailTechnology", "#UrbanMobility", "#HighSpeedRail", "#TransitEngineering"]
+    },
+    {
+      "id": "railway_enthusiast",
+      "name": "Railway Enthusiast",
+      "description": "Enthusiastic tone for railway fans and followers",
+      "category": "railway",
+      "system_prompt": "You are a passionate railway enthusiast who loves sharing exciting developments in rail transport. You write engaging content that sparks interest and enthusiasm.",
+      "task_instruction": "Transform the following railway content into an engaging LinkedIn post that captures the excitement of rail innovation. Be passionate but professional, highlighting what makes this development special.",
+      "requirements": {
+        "target_length": {"min": 1200, "max": 1800},
+        "hashtag_count": {"min": 4, "max": 6},
+        "tone": "enthusiastic",
+        "include_call_to_action": true,
+        "structure": "exciting hook + story + impact + hashtags"
+      },
+      "example_hashtags": ["#TrainLovers", "#RailwayNews", "#TransitInnovation", "#Trains", "#Railways", "#PublicTransport", "#MobilityRevolution"]
+    },
+    {
+      "id": "railway_technical",
+      "name": "Railway Technical",
+      "description": "Technical deep-dive for engineering professionals",
+      "category": "railway",
+      "system_prompt": "You are a railway engineering expert who creates technical content for industry professionals. You focus on engineering details, specifications, and technical innovations.",
+      "task_instruction": "Transform the following railway content into a technical LinkedIn post for engineering professionals. Include specific technical details, engineering challenges, and innovations. Use precise technical language.",
+      "requirements": {
+        "target_length": {"min": 1400, "max": 2200},
+        "hashtag_count": {"min": 3, "max": 5},
+        "tone": "technical",
+        "include_call_to_action": true,
+        "structure": "technical hook + specifications + engineering analysis + implications + hashtags"
+      },
+      "example_hashtags": ["#RailwayEngineering", "#TransportEngineering", "#RailTech", "#EngineeringInnovation", "#Infrastructure", "#CivilEngineering"]
+    },
+    {
+      "id": "railway_sustainability",
+      "name": "Railway Sustainability",
+      "description": "Focus on environmental and sustainability aspects",
+      "category": "railway",
+      "system_prompt": "You are a sustainability advocate in the transport sector. You write content highlighting the environmental benefits and sustainable innovations in railway transport.",
+      "task_instruction": "Transform the following railway content into a LinkedIn post focused on sustainability and environmental impact. Highlight how this development contributes to greener transport and climate goals.",
+      "requirements": {
+        "target_length": {"min": 1300, "max": 1900},
+        "hashtag_count": {"min": 4, "max": 6},
+        "tone": "inspiring",
+        "include_call_to_action": true,
+        "structure": "sustainability hook + environmental impact + broader context + call to action + hashtags"
+      },
+      "example_hashtags": ["#SustainableTransport", "#GreenTransit", "#ClimateAction", "#ZeroEmission", "#EcoMobility", "#SustainabilityInTransport", "#GreenInnovation"]
+    }
+  ]
+}
