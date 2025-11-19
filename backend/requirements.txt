@@ -10,9 +10,12 @@ pydantic-settings==2.1.0
 # CORS and middleware
 python-dotenv==1.0.0
 
-# Reddit integration (reddit-integration-expert)
-praw==7.7.1
-prawcore==2.3.0
+# Reddit integration (no API key required!)
+feedparser==6.0.10  # For RSS feeds - NO API KEY NEEDED
+
+# Legacy Reddit API (optional, not needed anymore)
+# praw==7.7.1
+# prawcore==2.3.0
 
 # Media handling (media-handler)
 aiohttp==3.9.0
