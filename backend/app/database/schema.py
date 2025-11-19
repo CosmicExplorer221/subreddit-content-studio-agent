@@ -39,15 +39,17 @@ def init_db(db_path: str = "data/linkedin_automation.db") -> None:
                 permalink TEXT,
                 flair TEXT,
                 media_type TEXT,
-                media_urls TEXT,  -- JSON array as TEXT
-                top_comments TEXT,  -- JSON array as TEXT
-                INDEX idx_reddit_post_id (reddit_post_id),
-                INDEX idx_category (category),
-                INDEX idx_subreddit (subreddit),
-                INDEX idx_score (score),
-                INDEX idx_fetched_at (fetched_at)
+                media_urls TEXT,
+                top_comments TEXT
             )
         """)
+
+        # Create indexes for posts table
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_posts_reddit_post_id ON posts(reddit_post_id)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_posts_category ON posts(category)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_posts_subreddit ON posts(subreddit)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_posts_score ON posts(score)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_posts_fetched_at ON posts(fetched_at)")
 
         # LinkedIn posts table - stores generated LinkedIn content
         cursor.execute("""
@@ -63,17 +65,19 @@ def init_db(db_path: str = "data/linkedin_automation.db") -> None:
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 scheduled_date TIMESTAMP,
                 published_date TIMESTAMP,
-                hashtags TEXT,  -- JSON array as TEXT
+                hashtags TEXT,
                 notion_page_id TEXT,
                 notion_synced_at TIMESTAMP,
-                FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
-                INDEX idx_post_id (post_id),
-                INDEX idx_status (status),
-                INDEX idx_quality_score (quality_score),
-                INDEX idx_template_id (template_id),
-                INDEX idx_notion_page_id (notion_page_id)
+                FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
             )
         """)
+
+        # Create indexes for linkedin_posts table
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_linkedin_posts_post_id ON linkedin_posts(post_id)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_linkedin_posts_status ON linkedin_posts(status)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_linkedin_posts_quality_score ON linkedin_posts(quality_score)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_linkedin_posts_template_id ON linkedin_posts(template_id)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_linkedin_posts_notion_page_id ON linkedin_posts(notion_page_id)")
 
         # Media files table - tracks downloaded media
         cursor.execute("""
@@ -81,19 +85,21 @@ def init_db(db_path: str = "data/linkedin_automation.db") -> None:
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 post_id INTEGER,
                 file_path TEXT NOT NULL,
-                file_type TEXT NOT NULL,  -- image, video
+                file_type TEXT NOT NULL,
                 file_size INTEGER,
                 width INTEGER,
                 height INTEGER,
-                duration REAL,  -- for videos
+                duration REAL,
                 downloaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                status TEXT DEFAULT 'downloaded',  -- downloaded, optimized, failed
-                FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
-                INDEX idx_post_id (post_id),
-                INDEX idx_file_type (file_type),
-                INDEX idx_status (status)
+                status TEXT DEFAULT 'downloaded',
+                FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
             )
         """)
+
+        # Create indexes for media_files table
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_media_files_post_id ON media_files(post_id)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_media_files_file_type ON media_files(file_type)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_media_files_status ON media_files(status)")
 
         # Reddit comments table - stores top comments
         cursor.execute("""
@@ -106,11 +112,13 @@ def init_db(db_path: str = "data/linkedin_automation.db") -> None:
                 score INTEGER DEFAULT 0,
                 created_utc INTEGER,
                 is_top BOOLEAN DEFAULT FALSE,
-                FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
-                INDEX idx_post_id (post_id),
-                INDEX idx_score (score)
+                FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
             )
         """)
+
+        # Create indexes for reddit_comments table
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_reddit_comments_post_id ON reddit_comments(post_id)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_reddit_comments_score ON reddit_comments(score)")
 
         # Analytics table - tracks performance
         cursor.execute("""
@@ -123,33 +131,37 @@ def init_db(db_path: str = "data/linkedin_automation.db") -> None:
                 shares INTEGER DEFAULT 0,
                 engagement_rate REAL DEFAULT 0.0,
                 recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (linkedin_post_id) REFERENCES linkedin_posts(id) ON DELETE CASCADE,
-                INDEX idx_linkedin_post_id (linkedin_post_id),
-                INDEX idx_recorded_at (recorded_at)
+                FOREIGN KEY (linkedin_post_id) REFERENCES linkedin_posts(id) ON DELETE CASCADE
             )
         """)
+
+        # Create indexes for analytics table
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_analytics_linkedin_post_id ON analytics(linkedin_post_id)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_analytics_recorded_at ON analytics(recorded_at)")
 
         # Job queue table - background jobs
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS job_queue (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 job_id TEXT UNIQUE NOT NULL,
-                job_type TEXT NOT NULL,  -- fetch_reddit, generate_content, download_media, sync_notion
-                status TEXT DEFAULT 'queued',  -- queued, running, completed, failed
+                job_type TEXT NOT NULL,
+                status TEXT DEFAULT 'queued',
                 progress INTEGER DEFAULT 0,
                 total INTEGER DEFAULT 0,
-                params TEXT,  -- JSON parameters
-                result TEXT,  -- JSON result
+                params TEXT,
+                result TEXT,
                 error TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 started_at TIMESTAMP,
-                completed_at TIMESTAMP,
-                INDEX idx_job_id (job_id),
-                INDEX idx_job_type (job_type),
-                INDEX idx_status (status),
-                INDEX idx_created_at (created_at)
+                completed_at TIMESTAMP
             )
         """)
+
+        # Create indexes for job_queue table
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_job_queue_job_id ON job_queue(job_id)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_job_queue_job_type ON job_queue(job_type)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_job_queue_status ON job_queue(status)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_job_queue_created_at ON job_queue(created_at)")
 
         # Config table - application configuration
         cursor.execute("""
