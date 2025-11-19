@@ -1,31 +1,55 @@
 """
 Notion API Router
-Handles Notion integration and syncing (structure ready for integration)
+Handles Notion integration and syncing
 """
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, BackgroundTasks
 from typing import List
 import uuid
+from datetime import datetime
+import logging
 
 from app.models.schemas import NotionSyncRequest, JobResponse, MessageResponse
 from app.storage.json_storage import get_storage
+from app.services.notion_service import get_notion_service
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 
 @router.post("/sync", response_model=JobResponse)
-async def sync_to_notion(request: NotionSyncRequest):
+async def sync_to_notion(
+    request: NotionSyncRequest,
+    background_tasks: BackgroundTasks
+):
     """
     Sync posts to Notion database
 
-    **Note**: This is a structure endpoint. Actual Notion integration
-    will be implemented by the notion-integration-expert agent.
+    This endpoint queues a background job to sync posts to a Notion database.
+    It includes automatic duplicate detection based on Reddit post IDs.
 
     Args:
-        request: Sync request with post IDs and options
+        request: Sync request with post IDs and update options
+        background_tasks: FastAPI background tasks handler
 
-    Returns job ID for tracking the sync operation.
+    Returns:
+        Job ID for tracking the sync operation
+
+    Example:
+        POST /api/notion/sync
+        {
+            "post_ids": ["post-uuid-1", "post-uuid-2"],
+            "update_existing": false
+        }
     """
+    notion_service = get_notion_service()
     storage = get_storage()
+
+    # Check if Notion is configured
+    if not notion_service.is_configured():
+        raise HTTPException(
+            status_code=503,
+            detail="Notion API not configured. Set NOTION_API_TOKEN and NOTION_DATABASE_ID in .env file."
+        )
 
     # Verify all posts exist
     missing_posts = []
@@ -42,14 +66,69 @@ async def sync_to_notion(request: NotionSyncRequest):
     # Generate job ID
     job_id = str(uuid.uuid4())
 
-    # TODO: Implement actual Notion syncing
-    # This will be implemented by notion-integration-expert agent
+    # Background task for Notion syncing
+    async def sync_task():
+        """Background task to sync posts to Notion"""
+        storage = get_storage()
+
+        try:
+            # Initialize job
+            job_data = {
+                "job_id": job_id,
+                "type": "notion_sync",
+                "status": "processing",
+                "post_ids": request.post_ids,
+                "update_existing": request.update_existing,
+                "started_at": datetime.utcnow().isoformat()
+            }
+            storage.storage.write("jobs", job_id, job_data)
+
+            # Sync to Notion
+            logger.info(f"Starting Notion sync job {job_id} for {len(request.post_ids)} posts")
+
+            result = await notion_service.batch_sync(
+                post_ids=request.post_ids,
+                update_existing=request.update_existing
+            )
+
+            # Update job with results
+            job_data.update({
+                "status": "completed",
+                "completed_at": datetime.utcnow().isoformat(),
+                "total_posts": result['total_posts'],
+                "created": result['created'],
+                "updated": result['updated'],
+                "duplicates": result['duplicates'],
+                "failed": result['failed'],
+                "results": result['results']
+            })
+
+            storage.storage.write("jobs", job_id, job_data)
+            logger.info(
+                f"Notion sync job {job_id} completed: "
+                f"{result['created']} created, {result['updated']} updated, "
+                f"{result['duplicates']} duplicates, {result['failed']} failed"
+            )
+
+        except Exception as e:
+            logger.error(f"Notion sync job {job_id} failed: {e}")
+
+            # Update job with error
+            job_data = storage.storage.read("jobs", job_id)
+            job_data.update({
+                "status": "failed",
+                "error": str(e),
+                "completed_at": datetime.utcnow().isoformat()
+            })
+            storage.storage.write("jobs", job_id, job_data)
+
+    # Queue background task
+    background_tasks.add_task(sync_task)
 
     return JobResponse(
         job_id=job_id,
-        status="pending",
-        message=f"Notion sync queued for {len(request.post_ids)} post(s). "
-                f"Integration pending - see notion-integration-expert agent."
+        status="queued",
+        message=f"Notion sync queued for {len(request.post_ids)} post(s). Use /api/reddit/jobs/{job_id} to track progress."
     )
 
 
@@ -120,13 +199,21 @@ async def update_notion_status(post_id: str, status: str):
 
 @router.get("/status")
 async def get_notion_integration_status():
-    """Get Notion integration status"""
-    # TODO: Check actual Notion API connection
-    # This will be implemented by notion-integration-expert agent
+    """
+    Get Notion integration status
 
-    return {
-        "status": "not_configured",
-        "message": "Notion API integration pending. Configure API token and database ID to enable.",
-        "integration_agent": "notion-integration-expert",
-        "required_credentials": ["api_token", "database_id"]
-    }
+    Returns information about the Notion API connection and database.
+    """
+    notion_service = get_notion_service()
+
+    if not notion_service.is_configured():
+        return {
+            "status": "not_configured",
+            "message": "Notion API not configured. Set NOTION_API_TOKEN and NOTION_DATABASE_ID in .env file.",
+            "required_credentials": ["NOTION_API_TOKEN", "NOTION_DATABASE_ID"]
+        }
+
+    # Get database info
+    db_info = notion_service.get_database_info()
+
+    return db_info

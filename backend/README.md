@@ -4,13 +4,16 @@ FastAPI backend for automating LinkedIn content creation from Reddit posts.
 
 ## Overview
 
-This backend provides a complete REST API foundation for the LinkedIn Content Automation tool with:
+This backend provides a complete REST API for the LinkedIn Content Automation tool with:
 
 - **JSON File Storage**: Thread-safe, atomic write operations
 - **Category Management**: Organize content by topics with subreddit mappings
 - **Template System**: Style templates for content generation
 - **Post Management**: Full CRUD operations for posts and content
-- **Integration Ready**: Structured endpoints for Reddit, Media, Notion integrations
+- **Reddit Integration**: Fetch posts from multiple subreddits with filtering
+- **Media Handling**: Download and manage images and videos from Reddit
+- **Gemini LLM**: Generate LinkedIn content using Google's Gemini API
+- **Notion Sync**: Batch sync posts to Notion database with duplicate detection
 
 ## Architecture
 
@@ -25,18 +28,29 @@ backend/
 │   │   └── schemas.py         # Pydantic models
 │   ├── routers/
 │   │   ├── config.py          # Categories, templates, settings
-│   │   ├── posts.py           # Post management
-│   │   ├── reddit.py          # Reddit integration (structure)
-│   │   ├── media.py           # Media handling (structure)
-│   │   └── notion.py          # Notion sync (structure)
+│   │   ├── posts.py           # Post management & content generation
+│   │   ├── reddit.py          # Reddit integration
+│   │   ├── media.py           # Media handling
+│   │   └── notion.py          # Notion sync
+│   ├── services/
+│   │   ├── reddit_service.py  # Reddit API client
+│   │   ├── media_service.py   # Media downloader
+│   │   ├── gemini_service.py  # Gemini content generator
+│   │   └── notion_service.py  # Notion database sync
 │   └── storage/
 │       └── json_storage.py    # JSON file storage manager
 ├── data/                       # JSON data storage
 │   ├── categories/            # Category definitions
 │   ├── templates/             # Style templates
 │   ├── posts/                 # Posts and content
+│   ├── jobs/                  # Background job tracking
 │   └── settings/              # Application settings
-└── requirements.txt
+├── downloads/                  # Downloaded media files
+│   └── {category}/            # Organized by category
+│       └── {post_id}/         # Per-post media storage
+├── requirements.txt
+├── test_reddit_media.py        # Reddit + Media integration test
+└── test_complete_pipeline.py   # Complete pipeline integration test
 ```
 
 ## Quick Start
@@ -50,14 +64,41 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 2. Initialize Default Data
+### 2. Configure API Keys
+
+Copy `.env.example` to `.env` and configure your API credentials:
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` with your API keys:
+
+```env
+# Reddit API (required for fetching posts)
+REDDIT_CLIENT_ID=your_client_id_here
+REDDIT_CLIENT_SECRET=your_client_secret_here
+REDDIT_USERNAME=your_reddit_username
+REDDIT_PASSWORD=your_reddit_password
+
+# Gemini API (required for content generation)
+GEMINI_API_KEY=your_gemini_api_key_here
+
+# Notion API (optional - for database sync)
+NOTION_API_TOKEN=your_notion_token_here
+NOTION_DATABASE_ID=your_database_id_here
+```
+
+See `.env.example` for detailed instructions on obtaining each API key.
+
+### 3. Initialize Default Data
 
 ```bash
 # Initialize Railway category and Professional template
 python -m app.core.initialize
 ```
 
-### 3. Start the Server
+### 4. Start the Server
 
 ```bash
 # Development mode with auto-reload
@@ -69,7 +110,17 @@ python -m app.main
 
 The server will start at `http://localhost:8000`
 
-### 4. Access API Documentation
+### 5. Test the Integration
+
+```bash
+# Test Reddit + Media integration
+python test_reddit_media.py
+
+# Test complete pipeline (Reddit → Gemini → Notion)
+python test_complete_pipeline.py
+```
+
+### 6. Access API Documentation
 
 - **Swagger UI**: http://localhost:8000/api/docs
 - **ReDoc**: http://localhost:8000/api/redoc
@@ -118,31 +169,33 @@ POST   /api/posts                          # Create post
 PUT    /api/posts/{id}                     # Update post
 DELETE /api/posts/{id}                     # Delete post
 GET    /api/posts/stats/summary            # Post statistics
+POST   /api/posts/generate                 # Generate LinkedIn content (Gemini)
 ```
 
-### Reddit Integration (Structure)
+### Reddit Integration
 
 ```bash
-POST   /api/reddit/fetch                   # Fetch Reddit posts
+POST   /api/reddit/fetch                   # Fetch Reddit posts with media
+GET    /api/reddit/jobs/{job_id}           # Get job status
 GET    /api/reddit/categories/{id}/subreddits  # Get category subreddits
 GET    /api/reddit/status                  # Integration status
 ```
 
-### Media Handling (Structure)
+### Media Handling
 
 ```bash
-POST   /api/media/download                 # Download media
-GET    /api/media/posts/{id}               # Get post media
-GET    /api/media/status                   # Storage status
+POST   /api/media/download                 # Download media files
+GET    /api/media/posts/{reddit_post_id}   # Get post media info
+GET    /api/media/status                   # Storage statistics
 ```
 
-### Notion Integration (Structure)
+### Notion Integration
 
 ```bash
-POST   /api/notion/sync                    # Sync posts to Notion
+POST   /api/notion/sync                    # Batch sync posts to Notion
 GET    /api/notion/posts/{id}/status       # Get sync status
 PUT    /api/notion/posts/{id}/update-status  # Update status in Notion
-GET    /api/notion/status                  # Integration status
+GET    /api/notion/status                  # Integration & database status
 ```
 
 ## Default Data
@@ -177,9 +230,56 @@ A versatile template for creating professional LinkedIn posts with:
 - 3-5 hashtags
 - Minimal emoji usage
 
-## Usage Examples
+## Complete Workflow
 
-### Create a Post
+### 1. Fetch Reddit Posts
+
+```bash
+curl -X POST http://localhost:8000/api/reddit/fetch \
+  -H "Content-Type: application/json" \
+  -d '{
+    "category": "railway",
+    "time_filter": "week",
+    "limit": 10
+  }' \
+  --get --data-urlencode "download_media=true"
+
+# Response: {"job_id": "abc123...", "status": "queued"}
+
+# Check job status
+curl http://localhost:8000/api/reddit/jobs/abc123...
+```
+
+### 2. Generate LinkedIn Content
+
+```bash
+curl -X POST http://localhost:8000/api/posts/generate \
+  -H "Content-Type: application/json" \
+  -d '{
+    "post_ids": ["post-uuid-1", "post-uuid-2"],
+    "template_id": "professional",
+    "variations": 2
+  }'
+
+# Response: {"job_id": "def456...", "status": "queued"}
+```
+
+### 3. Sync to Notion
+
+```bash
+curl -X POST http://localhost:8000/api/notion/sync \
+  -H "Content-Type: application/json" \
+  -d '{
+    "post_ids": ["post-uuid-1", "post-uuid-2"],
+    "update_existing": false
+  }'
+
+# Response: {"job_id": "ghi789...", "status": "queued"}
+```
+
+## API Examples
+
+### Create a Post Manually
 
 ```bash
 curl -X POST http://localhost:8000/api/posts \
@@ -274,29 +374,90 @@ settings = storage.get_settings()
 stats = storage.get_stats()
 ```
 
-## Integration Guides
+## Integrations
 
-The backend has structured endpoints ready for integration. See the agent documentation for implementation:
+### Reddit Integration ✅ Implemented
 
-### Reddit Integration
-- **Agent**: `.claude/agents/reddit-integration-expert.md`
-- **Endpoints**: `/api/reddit/*`
-- **Implementation**: Add Reddit API client to `app/services/`
+**Service**: `app/services/reddit_service.py`
+**Features**:
+- Multi-subreddit fetching by category
+- Content filtering (score, comments, age, NSFW)
+- Top comments extraction
+- Media URL detection (images, videos, galleries)
+- Rate limiting (60 req/min)
+- Background job processing
 
-### Media Handling
-- **Agent**: `.claude/agents/media-handler.md`
-- **Endpoints**: `/api/media/*`
-- **Implementation**: Add media downloader to `app/services/`
+**Configuration**:
+```env
+REDDIT_CLIENT_ID=your_client_id
+REDDIT_CLIENT_SECRET=your_client_secret
+REDDIT_USERNAME=your_username
+REDDIT_PASSWORD=your_password
+```
 
-### LLM Integration
-- **Agent**: `.claude/agents/llm-integration-expert.md`
-- **Implementation**: Add Gemini client to `app/services/`
-- **Usage**: Generate LinkedIn content from Reddit posts
+Get credentials: https://www.reddit.com/prefs/apps
 
-### Notion Sync
-- **Agent**: `.claude/agents/notion-integration-expert.md`
-- **Endpoints**: `/api/notion/*`
-- **Implementation**: Add Notion client to `app/services/`
+### Media Handling ✅ Implemented
+
+**Service**: `app/services/media_service.py`
+**Features**:
+- Async media downloads (aiohttp)
+- Reddit video support (DASH format with quality fallbacks)
+- Image support (JPG, PNG, GIF, WebP)
+- File validation with magic numbers
+- Organized storage: `downloads/{category}/{post_id}/`
+- Storage statistics
+
+### Gemini LLM ✅ Implemented
+
+**Service**: `app/services/gemini_service.py`
+**Features**:
+- LinkedIn content generation from Reddit posts
+- Template-based prompts
+- Quality scoring (0-100)
+- Multiple variations support
+- Hashtag extraction and validation
+- Character count validation
+
+**Configuration**:
+```env
+GEMINI_API_KEY=your_api_key
+```
+
+Get API key: https://makersuite.google.com/app/apikey
+
+### Notion Sync ✅ Implemented
+
+**Service**: `app/services/notion_service.py`
+**Features**:
+- Batch sync to Notion database
+- Duplicate detection by Reddit post ID
+- Create or update pages
+- Rich page content with blocks
+- Multi-select hashtags
+- Status tracking
+
+**Configuration**:
+```env
+NOTION_API_TOKEN=your_token
+NOTION_DATABASE_ID=your_database_id
+```
+
+Get credentials: https://www.notion.so/my-integrations
+
+**Required Database Properties**:
+- Title (title)
+- Category (select)
+- Status (select)
+- Reddit Post ID (rich_text)
+- Subreddit (rich_text)
+- Score (number)
+- Comments (number)
+- Quality Score (number)
+- Character Count (number)
+- Template (select)
+- Hashtags (multi_select)
+- Reddit URL (url)
 
 ## Configuration
 
@@ -355,9 +516,19 @@ storage.create_template("casual", {
 })
 ```
 
-## Development
+## Testing
 
-### Running Tests
+### Integration Tests
+
+```bash
+# Test Reddit + Media integration
+python test_reddit_media.py
+
+# Test complete pipeline (Reddit → Gemini → Notion)
+python test_complete_pipeline.py
+```
+
+### Unit Tests
 
 ```bash
 # Install test dependencies
@@ -440,11 +611,14 @@ chmod -R 755 data/
 
 ## Next Steps
 
-1. **Add Reddit Integration**: See `reddit-integration-expert.md`
-2. **Add LLM Generation**: See `llm-integration-expert.md`
-3. **Add Media Handling**: See `media-handler.md`
-4. **Add Notion Sync**: See `notion-integration-expert.md`
-5. **Build Frontend**: See `frontend-developer.md`
+1. ✅ **Reddit Integration**: Implemented - fetch posts from subreddits
+2. ✅ **Media Handling**: Implemented - download images and videos
+3. ✅ **LLM Generation**: Implemented - generate content with Gemini
+4. ✅ **Notion Sync**: Implemented - batch sync to database
+5. **Build Frontend**: See `frontend-developer.md` for UI development
+6. **Add More Categories**: Create categories for different content types
+7. **Customize Templates**: Create templates for different writing styles
+8. **Schedule Publishing**: Add scheduling and auto-publish features
 
 ## Support
 
