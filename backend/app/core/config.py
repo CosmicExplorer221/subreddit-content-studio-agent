@@ -23,11 +23,18 @@ class Settings(BaseSettings):
     # CORS
     cors_origins: list = ["http://localhost:3000", "http://localhost:5173"]
 
-    # API Keys (optional - will be added when integrations are implemented)
+    # Reddit API (reddit-integration-expert)
     reddit_client_id: Optional[str] = None
     reddit_client_secret: Optional[str] = None
+    reddit_username: Optional[str] = None
+    reddit_password: Optional[str] = None
+
+    # Gemini API (llm-integration-expert)
     gemini_api_key: Optional[str] = None
+
+    # Notion API (notion-integration-expert)
     notion_api_token: Optional[str] = None
+    notion_database_id: Optional[str] = None
 
     class Config:
         env_file = ".env"

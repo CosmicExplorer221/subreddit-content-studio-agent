@@ -1,92 +1,92 @@
 """
 Media API Router
-Handles media file management and downloads (structure ready for integration)
+Handles media file management and downloads
 """
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, BackgroundTasks
 from typing import List
 import uuid
 
 from app.models.schemas import MessageResponse, JobResponse
 from app.storage.json_storage import get_storage
+from app.services.media_service import get_media_downloader
 
 router = APIRouter()
 
 
 @router.post("/download", response_model=JobResponse)
-async def download_media(post_id: str, urls: List[str]):
+async def download_media(
+    post_id: str,
+    urls: List[str],
+    category: str,
+    background_tasks: BackgroundTasks
+):
     """
     Download media files for a post
 
-    **Note**: This is a structure endpoint. Actual media download
-    will be implemented by the media-handler agent.
-
     Args:
-        post_id: The post ID to associate media with
+        post_id: The Reddit post ID (not the database ID)
         urls: List of media URLs to download
+        category: Category for organizing downloads
 
     Returns job ID for tracking the download operation.
     """
-    storage = get_storage()
-
-    # Verify post exists
-    post = storage.get_post(post_id)
-    if not post:
-        raise HTTPException(status_code=404, detail=f"Post {post_id} not found")
-
     # Generate job ID
     job_id = str(uuid.uuid4())
 
-    # TODO: Implement actual media downloading
-    # This will be implemented by media-handler agent
+    # Download media in background
+    async def download_task():
+        downloader = get_media_downloader()
+        result = await downloader.download_post_media(
+            post_id=post_id,
+            category=category,
+            media_urls=urls
+        )
+
+        # Store job result
+        storage = get_storage()
+        storage.storage.write("jobs", job_id, {
+            "job_id": job_id,
+            "type": "media_download",
+            "status": "completed",
+            "result": result
+        })
+
+    background_tasks.add_task(download_task)
 
     return JobResponse(
         job_id=job_id,
-        status="pending",
-        message=f"Media download queued for {len(urls)} file(s). "
-                f"Integration pending - see media-handler agent."
+        status="queued",
+        message=f"Media download queued for {len(urls)} file(s)."
     )
 
 
-@router.get("/posts/{post_id}")
-async def get_post_media(post_id: str):
+@router.get("/posts/{reddit_post_id}")
+async def get_post_media(reddit_post_id: str, category: str):
     """
-    Get all media files associated with a post
+    Get all media files associated with a Reddit post
+
+    Args:
+        reddit_post_id: The Reddit post ID
+        category: Category the post belongs to
 
     Returns list of media files with metadata.
     """
-    storage = get_storage()
+    downloader = get_media_downloader()
 
-    # Verify post exists
-    post = storage.get_post(post_id)
-    if not post:
-        raise HTTPException(status_code=404, detail=f"Post {post_id} not found")
+    media_info = downloader.get_post_media_info(category, reddit_post_id)
 
-    # Get media URLs from post
-    reddit_data = post.get('reddit_data', {})
-    media_urls = reddit_data.get('media_urls', [])
-
-    # TODO: Return actual downloaded media info
-    # This will be implemented by media-handler agent
-
-    return {
-        "post_id": post_id,
-        "media_count": len(media_urls),
-        "media_urls": media_urls,
-        "downloaded": [],
-        "message": "Media download integration pending - see media-handler agent"
-    }
+    return media_info
 
 
 @router.get("/status")
 async def get_media_status():
     """Get media storage status and statistics"""
-    # TODO: Implement actual storage statistics
-    # This will be implemented by media-handler agent
+    downloader = get_media_downloader()
+
+    stats = downloader.get_storage_stats()
 
     return {
-        "status": "not_configured",
-        "storage_path": "storage/",
-        "total_files": 0,
-        "total_size_gb": 0.0,
-        "message": "Media storage integration pending - see media-handler agent"
+        "status": "active",
+        "storage_path": str(downloader.base_path),
+        **stats
     }

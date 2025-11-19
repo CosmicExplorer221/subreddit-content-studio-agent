@@ -41,10 +41,14 @@ Thumbs.db
 
 # Data (keep structure, ignore actual data except defaults)
 data/posts/*.json
+data/jobs/*.json
 data/media/*
 !data/categories/railway.json
 !data/templates/professional.json
 !data/settings/app_settings.json
+
+# Downloaded media files
+downloads/
 
 # Logs
 *.log
